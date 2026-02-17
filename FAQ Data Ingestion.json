@@ -1,0 +1,269 @@
+{
+  "name": "FAQ Data Ingestion",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "ece9ae6a-0ccc-41e2-8963-30d940d2cdc5",
+        "formTitle": "Input FAQ",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Upload CSV FAQ",
+              "fieldType": "file",
+              "acceptFileTypes": ".csv"
+            },
+            {
+              "fieldLabel": "Question"
+            },
+            {
+              "fieldLabel": "Answer",
+              "fieldType": "textarea"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "58a871af-c425-4303-b378-760ce57143ff",
+      "name": "On Form Submission",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        320
+      ],
+      "webhookId": "ece9ae6a-0ccc-41e2-8963-30d940d2cdc5"
+    },
+    {
+      "parameters": {
+        "binaryPropertyName": "=Upload_CSV_FAQ",
+        "options": {}
+      },
+      "id": "1dba33d6-d073-402b-b2d0-bf459050e2f3",
+      "name": "Extract CSV",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 1,
+      "position": [
+        336,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1Om2oS7rBvNPTglNvfXQXnNV7sBBrpjPY8aHIl-zqhng",
+          "mode": "list",
+          "cachedResultName": "FAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Om2oS7rBvNPTglNvfXQXnNV7sBBrpjPY8aHIl-zqhng/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Om2oS7rBvNPTglNvfXQXnNV7sBBrpjPY8aHIl-zqhng/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "pertanyaan": "={{ $json.Pertanyaan }}",
+            "jawaban": "={{ $json.Jawaban }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "pertanyaan",
+              "displayName": "pertanyaan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "jawaban",
+              "displayName": "jawaban",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "12e30172-a904-4251-82cb-ecf3a6c0a07c",
+      "name": "Save FAQ",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        576,
+        176
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "uVjqGI9Rp55neJjY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1Om2oS7rBvNPTglNvfXQXnNV7sBBrpjPY8aHIl-zqhng",
+          "mode": "list",
+          "cachedResultName": "FAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Om2oS7rBvNPTglNvfXQXnNV7sBBrpjPY8aHIl-zqhng/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Om2oS7rBvNPTglNvfXQXnNV7sBBrpjPY8aHIl-zqhng/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "pertanyaan": "={{ $json.Question }}",
+            "jawaban": "={{ $json.Answer }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "pertanyaan",
+              "displayName": "pertanyaan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "jawaban",
+              "displayName": "jawaban",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "ccc47543-bd38-4d7b-a90d-f4d01c7c363d",
+      "name": "Save FAQ1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        336,
+        384
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "uVjqGI9Rp55neJjY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8e390815-3f25-4fe0-aec5-04f1f24ff4e1",
+              "leftValue": "={{ $json['Upload CSV FAQ'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        64,
+        304
+      ],
+      "id": "ce6b6440-c59a-4d5d-b3da-ae5aff5d90ba",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On Form Submission": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract CSV": {
+      "main": [
+        [
+          {
+            "node": "Save FAQ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Extract CSV",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Save FAQ1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "d3b780ea-30cc-4e53-85b9-5ce465109ad3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ae992e461b7ed1270a1d78cfd9e51e07a4d1f14f21204b34e9624e8e1e93eb62"
+  },
+  "id": "NoMuSJXqCYYXKx2P",
+  "tags": []
+}

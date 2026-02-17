@@ -1,0 +1,162 @@
+{
+  "name": "FAQ Chatbot AI Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -96,
+        544
+      ],
+      "id": "0496dc6d-1632-4754-87b1-38c13693f58d",
+      "name": "When chat message received",
+      "webhookId": "263a5ab5-6d41-4b9d-8175-4269f2e3824d"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah AI Customer Support yang bertugas menjawab pertanyaan client berdasarkan data FAQ yang tersedia.\n\nTUGAS UTAMA:\nMenjawab pertanyaan client menggunakan data FAQ yang diberikan.\n\nATURAN UTAMA:\n\n1. Jika pertanyaan client ditemukan atau memiliki kesamaan makna dengan pertanyaan pada data FAQ:\n   - WAJIB mengambil jawaban yang tersedia pada data FAQ.\n   - Gunakan jawaban tersebut sebagai balasan kepada client.\n   - Kamu boleh menyesuaikan gaya bahasa agar lebih natural tanpa mengubah makna jawaban.\n\n2. Jangan membuat, menambahkan, atau mengarang informasi di luar data FAQ.\n\n3. Jika terdapat beberapa FAQ yang relevan:\n   - Pilih jawaban yang paling sesuai dengan maksud pertanyaan client.\n\n4. Jika pertanyaan client tidak ditemukan pada data FAQ:\n   - Jawab dengan sopan bahwa informasi belum tersedia.\n\n5. Gunakan bahasa yang ramah, profesional, dan mudah dipahami.\n\n6. Jangan menyebutkan bahwa jawaban berasal dari spreadsheet, database, atau sistem internal.\n\n7. Jangan menampilkan data FAQ mentah kepada client.\n\nFORMAT PERILAKU:\n\nJika jawaban tersedia:\n→ Berikan jawaban yang relevan dan jelas.\n\nJika jawaban tidak tersedia:\n→ Gunakan format berikut:\n\"Maaf, saat ini saya belum menemukan informasi terkait pertanyaan tersebut. Silakan hubungi tim support kami untuk bantuan lebih lanjut.\"\n\n=====================\nDATA FAQ:\n{{faq_data}}\n=====================\n\nPERTANYAAN CLIENT:\n{{user_question}}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        128,
+        544
+      ],
+      "id": "4b1eb4e8-83c3-45f0-8136-bc83acc0c26f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        176,
+        752
+      ],
+      "id": "6b41b5b3-c138-4c25-b6d9-b25b52cb0af2",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Om2oS7rBvNPTglNvfXQXnNV7sBBrpjPY8aHIl-zqhng",
+          "mode": "list",
+          "cachedResultName": "FAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Om2oS7rBvNPTglNvfXQXnNV7sBBrpjPY8aHIl-zqhng/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Sheet', ``, 'string') }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        336,
+        736
+      ],
+      "id": "6a4b9b42-d31c-458f-a596-364c8dc2c8c3",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "uVjqGI9Rp55neJjY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "o3",
+          "mode": "list",
+          "cachedResultName": "o3"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        32,
+        752
+      ],
+      "id": "b46b0095-7621-4bca-a51c-0cf2f95f43aa",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "VuBHcuU5KNA5Xo1g",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "7fefb0b4-0b34-4efd-8477-9b2a6ccb466d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ae992e461b7ed1270a1d78cfd9e51e07a4d1f14f21204b34e9624e8e1e93eb62"
+  },
+  "id": "0pxz9qiXMEHZ2E6X",
+  "tags": []
+}
